@@ -2,9 +2,9 @@ name: Build and Push
 
 on:
   push:
-    branches: [main]
+    branches: [main, staging, dev]
   pull_request:
-    branches: [main]
+    branches: [main, staging]
 
 env:
   HARBOR_REGISTRY: harbor.devandre.sbs

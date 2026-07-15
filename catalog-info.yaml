@@ -1,9 +1,23 @@
+---
 apiVersion: backstage.io/v1alpha1
-kind: Location
+kind: Component
 metadata:
   name: minicloud-postgresql-noavx512
-  description: Redirects to the component entry in minicloud-gitops catalog
+  description: |
+    Custom PostgreSQL image built without AVX-512 instruction support,
+    required for deployment on hardware that lacks AVX-512 (older Intel CPUs,
+    AMD EPYC). Extends the official postgres image with a recompiled planner.
+    Used by the AI platform PostgreSQL StatefulSet (postgresql-ai namespace).
+  annotations:
+    github.com/project-slug: andrelair-platform/minicloud-postgresql-noavx512
+    backstage.io/source-location: url:https://github.com/andrelair-platform/minicloud-postgresql-noavx512
+  tags:
+    - docker
+    - postgresql
+    - ai
+    - level2
 spec:
-  type: url
-  targets:
-    - https://raw.githubusercontent.com/andrelair-platform/minicloud-gitops/main/catalog-info.yaml
+  type: library
+  lifecycle: production
+  owner: group:default/andrelair-platform
+  system: minicloud-platform

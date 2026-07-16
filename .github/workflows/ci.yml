@@ -18,7 +18,7 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Set image tag
         id: meta
@@ -30,7 +30,7 @@ jobs:
       # ── Tailscale: join the minicloud tailnet so we can reach Harbor ────────
       - name: Connect to Tailscale
         if: github.ref == 'refs/heads/main'
-        uses: tailscale/github-action@v3
+        uses: tailscale/github-action@v4.1.3
         with:
           authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
           version: latest
@@ -45,7 +45,7 @@ jobs:
           sudo update-ca-certificates
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           buildkitd-config-inline: |
             [registry."harbor.10.0.0.200.nip.io"]
@@ -53,7 +53,7 @@ jobs:
 
       - name: Login to Harbor
         if: github.ref == 'refs/heads/main'
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.HARBOR_REGISTRY }}
           username: ${{ secrets.HARBOR_USER }}
@@ -61,7 +61,7 @@ jobs:
 
       - name: Build and push
         id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64
